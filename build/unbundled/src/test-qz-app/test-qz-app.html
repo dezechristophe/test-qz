@@ -1,0 +1,45 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="app-data.html">
+<link rel="import" href="server-detail.html">
+</head><body><dom-module id="test-qz-app">
+  <template>
+    <style>
+       :host {
+        display: block;
+      }
+    </style>
+    <iron-localstorage name="user-storage" value="{{storedUser}}"></iron-localstorage>
+    <app-data key="userData" data="{{storedUser}}"></app-data>
+    <iron-ajax url="etabs.json" handle-as="json" on-response="handleResponse" last-response="{{etabItems}}" auto="">
+    </iron-ajax>
+    <h2>Hello [[prop1]]</h2>
+    <input value="{{searchString::input}}">
+    <div class="col-lg-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Libellé</th>
+            <th>rne</th>
+            <th>Ville</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template is="dom-repeat" items="{{etabItems}}" rendered-item-count="{{renderedCount}}" filter="{{computeFilter(searchString)}}" as="etab">
+            <tr>
+              <td>{{etab.libelle}}</td>
+              <td>{{etab.rne}}</td>
+              <td>{{etab.ville}}</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+    <template is="dom-if" if="[[_isUniq(renderedCount)]]">
+      <serveur-detail rne="{{etab.rne}}"></serveur-detail>
+    </template>
+  </template>
+  <script>Polymer({is:"test-qz-app",properties:{prop1:{type:String,value:"test-qz-app"},searchTxt:{type:String},etabItems:{type:Array}},handleResponse:function(){console.log("x-test: AJAX response ready")},_isUniq:function(e){return 1==e},computeFilter:function(e){return e?(e=e.toLowerCase(),function(t){var r=t.rne.toLowerCase(),n=t.libelle.toLowerCase();return r.indexOf(e)!=-1||n.indexOf(e)!=-1}):null}});</script>
+</dom-module></body></html>

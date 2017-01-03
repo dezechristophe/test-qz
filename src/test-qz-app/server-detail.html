@@ -1,0 +1,94 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="acces-ead.html">
+<dom-module id="serveur-detail">
+    <template>
+        <style>
+             :host {
+                display: block;
+            }
+        </style>
+        <iron-ajax url="serveurs.json" handle-as="json" on-response="handleResponse" last-response="{{serveursItems}}" auto>
+        </iron-ajax>
+        <vaadin-grid>
+            <table>
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Module</th>
+                        <th>Variante</th>
+                        <th>Libellé</th>
+                        <th>accès EAD</th>
+                        <th>info ssh</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template is="dom-repeat" items="{{serveursItems}}" rendered-item-count="{{renderedCount}}" as="serveur">
+                        <tr>
+                            <iron-ajax url="config.json" handle-as="json" verbose="true" on-response="handleConfigResponse" last-response="{{serverConfig}}" auto>
+                            </iron-ajax>
+                            <td>
+                                <!--a ng-hide="IsGreater24(mod.version)" href="https://{{appConfig.serveur}}:8070/serveur/dico?id={{ serveur.id }}&mode=modif_config" target="_blank" >{{ serveur.id }}</a-->
+                                <a href="https://{{appConfig.serveur}}:8070/genconfig/serveur/{{ serveur.id }}/modif_config" target="_blank">{{ serveur.id }}</a>
+                            </td>
+                            <td>
+                                {{serveur.module_actuel}}
+                            </td>
+                            <td>
+                                {{serveur.variante}}
+                            </td>
+                            <td>
+                                <a href="https://{{appConfig.serveur}}:8070/serveur/etat?id={{ serveur.id }}" target="_blank">{{ serveur.libelle }}</a>
+                            </td>
+                            <td>
+                                <acces-ead ip="{{serverConfig}}"></acces-ead>
+                            </td>
+                            <td>
+                                <acces-ead ip="{{serverConfig.adresse_ip_eth0}}"></acces-ead>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </vaadin-grid>
+    </template>
+    <script>
+        Polymer({
+
+            is: 'serveur-detail',
+
+            properties: {
+
+                serveursItems: {
+                    type: Array,
+                    value: []
+                },
+                rne: {
+                    type: String,
+                    notify: true
+                },
+                serverConfig: {
+                    type: Object
+
+                }
+
+            },
+            handleConfigResponse: function () {
+                console.log(this.serverConfig);
+            },
+            handleResponse: function () {
+                console.log(this.serveursItems);
+            },
+
+        });
+    </script>
+</dom-module>

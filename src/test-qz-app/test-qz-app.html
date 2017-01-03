@@ -1,0 +1,95 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+
+<link rel="import" href="app-data.html">
+<link rel="import" href="server-detail.html">
+<dom-module id="test-qz-app">
+  <template>
+    <style>
+       :host {
+        display: block;
+      }
+    </style>
+    <iron-localstorage name="user-storage" value="{{storedUser}}"></iron-localstorage>
+    <app-data key="userData" data="{{storedUser}}"></app-data>
+    <iron-ajax url="etabs.json" handle-as="json" on-response="handleResponse" last-response="{{etabItems}}" auto>
+    </iron-ajax>
+    <h2>Hello [[prop1]]</h2>
+    <input value="{{searchString::input}}">
+<vaadin-grid>
+      <table>
+            <colgroup>
+      <col>
+      <col>
+      <col>
+    </colgroup>
+        <thead>
+          <tr>
+            <th>Libellé</th>
+            <th>rne</th>
+            <th>Ville</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template is="dom-repeat" items="{{etabItems}}" rendered-item-count="{{renderedCount}}" filter="{{computeFilter(searchString)}}"
+            as="etab">
+            <tr>
+              <td>{{etab.libelle}}</td>
+              <td>{{etab.rne}}</td>
+              <td>{{etab.ville}}</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+</vaadin-grid>
+    <template is="dom-if" if="[[_isUniq(renderedCount)]]">
+      <serveur-detail rne="{{etab.rne}}"></serveur-detail>
+    </template>
+  </template>
+  <script>
+    Polymer({
+
+      is: 'test-qz-app',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'test-qz-app',
+        },
+        searchTxt: {
+          type: String,
+        },
+        etabItems: {
+          type: Array
+        },
+
+      },
+      handleResponse: function () {
+        console.log('x-test: AJAX response ready');
+      },
+      _isUniq: function (c) {
+        return c == 1;
+      },
+      computeFilter: function (string) {
+        if (!string) {
+          // set filter to null to disable filtering
+          return null;
+        } else {
+          // return a filter function for the current search string
+          string = string.toLowerCase();
+          return function (etab) {
+            //console.log(etab);
+            var rne = etab.rne.toLowerCase();
+            var libelle = etab.libelle.toLowerCase();
+            return (rne.indexOf(string) != -1 ||
+              libelle.indexOf(string) != -1);
+          };
+        }
+      }
+
+    });
+  </script>
+</dom-module>

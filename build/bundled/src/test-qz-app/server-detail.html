@@ -1,0 +1,54 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="acces-ead.html">
+</head><body><dom-module id="serveur-detail">
+    <template>
+        <style>
+             :host {
+                display: block;
+            }
+        </style>
+        <iron-ajax url="serveurs.json" handle-as="json" on-response="handleResponse" last-response="{{serveursItems}}" auto="">
+        </iron-ajax>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Module</th>
+                    <th>Variante</th>
+                    <th>Libellé</th>
+                    <th>accès EAD</th>
+                    <th>info ssh</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template is="dom-repeat" items="{{serveursItems}}" rendered-item-count="{{renderedCount}}" as="serveur">
+                    <tr>
+                        
+                        <td>
+                            
+                            <a href="https://{{appConfig.serveur}}:8070/genconfig/serveur/{{ serveur.id }}/modif_config" target="_blank">{{ serveur.id }}</a>
+                        </td>
+                        <td>
+                            {{serveur.module_actuel}}
+                        </td>
+                        <td>
+                            {{serveur.variante}}
+                        </td>
+                        <td>
+                            <a href="https://{{appConfig.serveur}}:8070/serveur/etat?id={{ serveur.id }}" target="_blank">{{ serveur.libelle }}</a>
+                        </td>
+                        <td>
+                            <acces-ead ip="{{serverConfig.adresse_ip_eth0}}"></acces-ead>
+                        </td>
+                        <td>
+                            <acces-ead ip="{{serverConfig.adresse_ip_eth0}}"></acces-ead>
+                        </td>
+                    </tr><iron-ajax url="config.json" handle-as="json" on-response="handleResponse" last-response="{{serverConfig}}" auto="">
+                        </iron-ajax>
+                </template>
+            </tbody>
+        </table>
+    </template>
+    <script>Polymer({is:"serveur-detail",properties:{serveursItems:{type:Array},rne:{type:String,notify:!0}},handleResponse:function(){console.log("x-test: AJAX response ready")}});</script>
+</dom-module></body></html>

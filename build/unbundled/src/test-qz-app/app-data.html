@@ -1,0 +1,5 @@
+<html><head><link rel="import" href="../../bower_components/polymer/polymer.html">
+
+</head><body><dom-module id="app-data">
+	<script>!function(){var e=[],t=Object.create(Polymer.Base);Polymer({is:"app-data",properties:{data:{type:Object,value:"",notify:!0,readonly:!1,observer:"_data_changed"},key:String},created:function(){if(key=this.getAttribute("key"),!key)throw console.log(this),"app-data element requires key";e.push({key:key,instance:this})},detached:function(){key=this.getAttribute("key");var t=e.indexOf({key:key,instance:this});t>=0&&e.splice(t,1)},_data_changed:function(a,i){if(key=this.getAttribute("key"),!key)throw"_data_changed: app-data element requires key";t.set(key,a);for(var n=0;n<e.length;n++)e[n].key==key&&e[n].instance.notifyPath("data",a)}})}();</script>
+</dom-module></body></html>

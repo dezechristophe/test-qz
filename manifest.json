@@ -1,0 +1,6 @@
+{
+  "name": "test-qz",
+  "short_name": "test-qz",
+  "start_url": "/",
+  "display": "standalone"
+}
