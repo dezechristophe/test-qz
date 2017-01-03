@@ -2,12 +2,36 @@
 
 pour installer les dependances
 
-bower  install
+ bower  install
 
 pour generer les fichiers json
  
 sur zephir
 
+pour creer jeu de fichier json
+
+ #!/usr/bin/env python
+ # -*- coding: UTF-8 -*- 
+
+ import sys,xmlrpclib,json
+ login='admin'
+ passwd=file('/root/admin.pwd').readline().split('\n')[0]
+ adresse_zephir='localhost'
+ id=1088 
+
+ proxy = xmlrpclib.ServerProxy('http://%s:%s@%s:7081' % (login,passwd,adresse_zephir))
+ 
+ rc,grp_serveurs=proxy.serveurs.get_config(id)
+ json.dump(grp_serveurs, open("config.json",'w')) 
+ 
+ rc,grp_etabs=proxy.etabs.get_etab()
+ json.dump(grp_etabs, open("etabs.json",'w'))
+ 
+ rc,grp_serveurs=proxy.serveurs.groupe_serveur(criteres_selection)
+ json.dump(grp_serveurs, open("serveurs.json",'w'))
+
+
+recuperer les fichiers et les mettre dans src/test-qz-app/
 
 
 ## Install the Polymer-CLI
