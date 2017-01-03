@@ -9,7 +9,7 @@ pour generer les fichiers json
 sur zephir
 
 pour creer jeu de fichier json
-
+```
  #!/usr/bin/env python
  # -*- coding: UTF-8 -*- 
 
@@ -29,7 +29,7 @@ pour creer jeu de fichier json
  
  rc,grp_serveurs=proxy.serveurs.groupe_serveur(criteres_selection)
  json.dump(grp_serveurs, open("serveurs.json",'w'))
-
+```
 
 recuperer les fichiers et les mettre dans src/test-qz-app/
 
