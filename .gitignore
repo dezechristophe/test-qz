@@ -1,4 +1,4 @@
-./bower_components
-./build
-./test
-./src/test-qz-app/*.json
+bower_components
+build
+test
+src/test-qz-app/*.json
