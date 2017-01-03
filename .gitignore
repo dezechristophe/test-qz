@@ -1,4 +1,5 @@
-bower_components
-build
-test
+bower_components/
+build/
+test/
 src/test-qz-app/*.json
+
