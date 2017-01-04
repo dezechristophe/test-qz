@@ -1,0 +1,3 @@
+[submodule "ewt-portal"]
+	path = ewt-portal
+	url = https://dev-eole.ac-dijon.fr/git/ewt-portal.git

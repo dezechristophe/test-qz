@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/iron-localstorage/iron-localstorage.html">
 <link rel="import" href="../../bower_components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../../elements/ewt-login/ewt-login.html">
 
 <link rel="import" href="app-data.html">
 <link rel="import" href="server-detail.html">
@@ -13,6 +14,8 @@
         display: block;
       }
     </style>
+            <ewt-login id="ewtlogin"></ewt-login>
+
     <iron-localstorage name="user-storage" value="{{storedUser}}"></iron-localstorage>
     <app-data key="userData" data="{{storedUser}}"></app-data>
     <iron-ajax url="etabs.json" handle-as="json" on-response="handleResponse" last-response="{{etabItems}}" auto>
