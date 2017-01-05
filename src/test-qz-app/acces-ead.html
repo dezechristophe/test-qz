@@ -7,9 +7,9 @@
                 display: block;
             }
         </style>
-<a  href="https://{{ip}}:4200"  target="_blank">https://{{ ip}}:4200 </a>
-    </template>
-    <script>
+<a href="https://{{ip}}:4200" target="_blank">https://{{ip}}:4200 </a>
+</template>
+<script>
         Polymer({
 
             is: 'acces-ead',
@@ -17,9 +17,15 @@
             properties: {
                 ip: {
                     type: String,
+                    //value: "127.0.0.1",
                     notify: true
                 }
             },
+            ready: function () {
+                //console.log(this.localName + '#' + this.id + ' has local DOM initialized');
+                console.log(this);
+            },
+
 
         });
     </script>

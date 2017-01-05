@@ -9,59 +9,60 @@
                 display: block;
             }
         </style>
-        <iron-ajax url="serveurs.json" handle-as="json" on-response="handleResponse" last-response="{{serveursItems}}" auto>
-        </iron-ajax>
-        <vaadin-grid>
-            <table>
-                <colgroup>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Module</th>
-                        <th>Variante</th>
-                        <th>Libellé</th>
-                        <th>accès EAD</th>
-                        <th>info ssh</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template is="dom-repeat" items="{{serveursItems}}" rendered-item-count="{{renderedCount}}" as="serveur">
-                        <tr>
-                            <iron-ajax url="config.json" handle-as="json" verbose="true" on-response="handleConfigResponse" last-response="{{serverConfig}}" auto>
-                            </iron-ajax>
-                            <td>
-                                <!--a ng-hide="IsGreater24(mod.version)" href="https://{{appConfig.serveur}}:8070/serveur/dico?id={{ serveur.id }}&mode=modif_config" target="_blank" >{{ serveur.id }}</a-->
-                                <a href="https://{{appConfig.serveur}}:8070/genconfig/serveur/{{ serveur.id }}/modif_config" target="_blank">{{ serveur.id }}</a>
-                            </td>
-                            <td>
-                                {{serveur.module_actuel}}
-                            </td>
-                            <td>
-                                {{serveur.variante}}
-                            </td>
-                            <td>
-                                <a href="https://{{appConfig.serveur}}:8070/serveur/etat?id={{ serveur.id }}" target="_blank">{{ serveur.libelle }}</a>
-                            </td>
-                            <td>
-                                <acces-ead ip="{{serverConfig}}"></acces-ead>
-                            </td>
-                            <td>
-                                <acces-ead ip="{{serverConfig.adresse_ip_eth0}}"></acces-ead>
-                            </td>
-                        </tr>
-                    </template>
-                </tbody>
-            </table>
-        </vaadin-grid>
-    </template>
-    <script>
+<iron-ajax url="serveurs.json" handle-as="json" on-response="handleResponse" last-response="{{serveursItems}}" auto>
+</iron-ajax>
+<!--vaadin-grid-->
+    <table>
+        <colgroup>
+            <col >
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Module</th>
+                <th>Variante</th>
+                <th>Libellé</th>
+                <th>accès EAD</th>
+                <th>info ssh</th>
+            </tr>
+        </thead>
+        <tbody>
+            <template is="dom-repeat" items="[[serveursItems]]" rendered-item-count="{{renderedCount}}">
+                <tr>
+                    <iron-ajax url="config.json" handle-as="json" verbose="true" on-response="handleConfigResponse" last-response="{{serverConfig}}"
+                        auto>
+                    </iron-ajax>
+                    <td>
+                        <!--a ng-hide="IsGreater24(mod.version)" href="https://{{appConfig.serveur}}:8070/serveur/dico?id={{ serveur.id }}&mode=modif_config" target="_blank" >{{ serveur.id }}</a-->
+                        <a href="https://{{appConfig.serveur}}:8070/genconfig/serveur/{{ item.id }}/modif_config" target="_blank">{{ item.id }}</a>
+                    </td>
+                    <td>
+                        {{item.module_actuel}}
+                    </td>
+                    <td>
+                        {{item.variante}}
+                    </td>
+                    <td>
+                        <a href="https://{{appConfig.serveur}}:8070/serveur/etat?id={{ item.id }}" target="_blank">{{ item.libelle }}</a>
+                    </td>
+                    <td>
+                        <acces-ead ip="{{serverConfig}}"></acces-ead>
+                    </td>
+                    <td>
+                        <acces-ead ip="{{serverConfig.adresse_ip_eth0}}"></acces-ead>
+                    </td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+<!--/vaadin-grid-->
+</template>
+<script>
         Polymer({
 
             is: 'serveur-detail',
@@ -77,7 +78,10 @@
                     notify: true
                 },
                 serverConfig: {
-                    type: Object
+                    type: Object,
+                    notify: true,
+                    observer: '_serverConfigChanged'
+
 
                 }
 
@@ -87,7 +91,12 @@
             },
             handleResponse: function () {
                 console.log(this.serveursItems);
+                console.log(this);
             },
+            _serverConfigChanged: function (newValue, oldValue) {
+                console.log(newValue);
+            },
+            
 
         });
     </script>

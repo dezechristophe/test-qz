@@ -22,13 +22,9 @@
     </iron-ajax>
     <h2>Hello [[prop1]]</h2>
     <input value="{{searchString::input}}">
-<vaadin-grid>
+<!--vaadin-grid-->
       <table>
-            <colgroup>
-      <col>
-      <col>
-      <col>
-    </colgroup>
+
         <thead>
           <tr>
             <th>Libellé</th>
@@ -47,7 +43,7 @@
           </template>
         </tbody>
       </table>
-</vaadin-grid>
+<!--/vaadin-grid-->
     <template is="dom-if" if="[[_isUniq(renderedCount)]]">
       <serveur-detail rne="{{etab.rne}}"></serveur-detail>
     </template>
